@@ -1,5 +1,171 @@
-*{
-    width: 150px;
-    height: 100px;
-    background-color: cyan;
+@import url('https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+/* --text: #050316;
+--background: #f3f3fd;
+--primary: #4238d9;
+--secondary: #cc91ea;
+--accent: #5adc76; */
+
+:root{
+  --text: #050316;
+  --background: #f3f3fd;
+  --primary: #4238d9;
+  --secondary: #daaef0;
+  --accent: #5adc76;
+}
+
+body{
+    font-family: "Winky Sans", sans-serif;
+    width: 400px;
+    height: 300px;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+#extension-title{
+    font-size: 2.1em;
+    width: auto;
+    height: auto;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+    width: 100%;
+    justify-content: center;
+}
+
+#text-bar {
+    font-family: "Winky Sans", sans-serif;
+    width: 200px;
+    padding: 8px 12px;
+    font-size: 1em;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+#text-bar:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 5px var(--accent);
+}
+
+#search-btn, #file-import-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+#search-btn:hover, #file-import-btn:hover {
+    background: var(--accent);
+    transform: scale(1.05);
+}
+
+#file-import-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.items-container {
+  margin-top: 15px;
+  /* display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-rows: repeat(3, auto); 
+  gap: 10px; 
+  padding: 10px;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  max-width: 400px; 
+  margin: 0 auto;  */
+}
+
+
+.item-card-container {
+    /* margin-top: 3%;
+    border-radius: 5px;
+    width: 300px;
+    display: flex;
+    align-items: center; 
+    padding: 5px;
+    justify-items: center;
+    align-items: center;
+    user-select: none; */
+    display: grid;
+    grid-template-columns: repeat(2, 3fr);
+}
+
+/* Tag Container */
+.tag-container {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid black;
+}
+  
+  /* Base Tag Style */
+.tag {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: lowercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+  
+  /* Tag Type Variations */
+.tag.email {
+  background-color: #5adc76;
+  color: #050316;
+}
+    
+.tag.url {
+  background-color: #4238d9;
+  color: white;
+}
+    
+.tag.code {
+  background-color: #daaef0;
+  color: #050316;
+}
+    
+/* Item Card Improvements */
+.item-card {
+  order: 1px solid blue;
+  padding: 10px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+}
+    
+.item-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+    
+.item-content {
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

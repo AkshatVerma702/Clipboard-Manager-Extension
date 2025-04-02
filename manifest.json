@@ -3,8 +3,22 @@
     "description": "Base Level Extension",
     "version": "1.0",
     "manifest_version": 3,
+    "permissions" :[
+      "clipboardRead",
+      "clipboardWrite",
+      "storage",
+      "tabs"
+    ],
     "action": {
       "default_popup": "hello.html",
       "default_icon": "hello_extensions.png"
-    }
+    },
+    "background" : {
+      "service_worker" : "background.js"
+    },
+    "content_scripts" : [{
+      "css" : ["content.css"],
+      "js" : ["content.js"],
+      "matches" : ["<all_urls>"]
+    }]
   }

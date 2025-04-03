@@ -1,28 +1,31 @@
 document.getElementById("search-btn").addEventListener('click', () => {
-    const textBar = document.getElementById("text-bar");
-    const textBarValue = textBar.value;
-
-    createCard(textBarValue);
-
-    textBar.value = "";
+    takeInput();
 });
 
 document.getElementById("text-bar").addEventListener('keypress', (e) => {
     if(e.key == 'Enter'){
-        const textBar = document.getElementById("text-bar");
-        const textBarValue = textBar.value;
-    
-        createCard(textBarValue);
-    
-        textBar.value = "";
+        takeInput();
     }
-})
+});
 
-function createCard(text){
-    if(text == ""){
+function takeInput(){
+    const textBar = document.getElementById("text-bar");
+    const textBarValue = textBar.value;
+
+    let parsedInput = inputParser(textBarValue);
+    createCard(parsedInput);
+
+    textBar.value = "";
+}
+
+function createCard(parsedInput){
+    if(!parsedInput){
         return;
     }
-    console.log(text);
+
+    let text = parsedInput.userInputText;
+    let tags = parsedInput.userInputTags;
+    
     let container = document.querySelector(".items-container");
     if(!container){
         console.log("main container not found");
@@ -58,9 +61,59 @@ function createCard(text){
     }
     tagContainer.classList.add("tag-container");
 
+    for(const tag of tags){
+        let spanClass = document.createElement("span");
+        spanClass.textContent = tag;
+        spanClass.classList.add("tag");
+        spanClass.style.backgroundColor = getRandomColors();
+        tagContainer.appendChild(spanClass);
+    }
+
     container.appendChild(cardContainer);
     cardContainer.appendChild(card);
     
     card.appendChild(cardContent);
     card.appendChild(tagContainer);
 }
+
+function inputParser(text){
+    //Extract text
+    let textFound = "";
+
+    let stringSplit = text.split('::');
+
+    textFound = stringSplit[0];
+
+    let tagsFound = stringSplit[1].split(',');
+
+    //Extract Tags
+    return {
+        userInputText: textFound,
+        userInputTags: tagsFound
+    }
+}
+
+function getRandomColors(){
+    let r = Math.floor(Math.random() * 255) + 1;
+    let g = Math.floor(Math.random() * 255) + 1;
+    let b = Math.floor(Math.random() * 255) + 1;
+
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    const tippingPoint = 0.6;
+
+    let fontColor = "";
+
+    if(luminance < tippingPoint){
+        //Dark background
+        fontColor = "white";
+    }
+    else{
+        // Light background
+        fontColor = "black";
+    }
+
+    return {
+        backgroundColorCalc: `rgb(${r}, ${g}, ${b})`,
+        calcFontColor: fontColor
+    }
+} 

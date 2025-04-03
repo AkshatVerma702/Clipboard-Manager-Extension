@@ -125,6 +125,7 @@ body{
   text-transform: lowercase;
   white-space: nowrap;
   text-overflow: ellipsis;
+  background-color: #5adc76;
 }
   
   /* Tag Type Variations */

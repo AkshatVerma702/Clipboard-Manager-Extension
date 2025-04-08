@@ -156,11 +156,20 @@ function saveCard(parsedInput){
 
 function getAllCards(){
     console.log("Getting All cards");
-    chrome.tabs.query({action: true, currentWindow: true}, (tabs) => {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {action: "sendCard"}, (response) => {
             console.log("Receiving Data from Content Script");
-            console.log("Text Array: " + response.text);
-            console.log("Tags Array: " + response.tags);
+            
+            if(!response.text && !response.tags){
+                return;
+            }
+
+            let obj = {
+                userInputText: response.text,
+                userInputTags: response.tags
+            }
+
+            createCard(obj)
         });
     });
 };

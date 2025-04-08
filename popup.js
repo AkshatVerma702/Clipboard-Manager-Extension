@@ -1,3 +1,8 @@
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM Loaded");
+    getAllCards();
+})
+
 document.getElementById("search-btn").addEventListener('click', () => {
     takeInput();
 });
@@ -8,14 +13,38 @@ document.getElementById("text-bar").addEventListener('keypress', (e) => {
     }
 });
 
+document.body.addEventListener('click', async (e) => {
+    let card = e.target.closest(".item-card");
+    if(!card){
+        return;
+    }
+
+    const targetText = card.querySelector(".item-content")?.textContent.trim();
+
+    if(!targetText){
+        return;
+    }
+
+    try{
+        await navigator.clipboard.writeText(targetText);
+        console.log("Copied: ", targetText);
+    }
+    catch(err){
+        console.log("Copy Failed: ", err);
+    }
+});
+
 function takeInput(){
     const textBar = document.getElementById("text-bar");
     const textBarValue = textBar.value;
 
     let parsedInput = inputParser(textBarValue);
+
     createCard(parsedInput);
+    saveCard(parsedInput);
 
     textBar.value = "";
+    
 }
 
 function createCard(parsedInput){
@@ -65,7 +94,9 @@ function createCard(parsedInput){
         let spanClass = document.createElement("span");
         spanClass.textContent = tag;
         spanClass.classList.add("tag");
-        spanClass.style.backgroundColor = getRandomColors();
+        let colorObject = getRandomColors();
+        spanClass.style.backgroundColor = colorObject.backgroundColorCalc;
+        spanClass.style.color = colorObject.calcFontColor;
         tagContainer.appendChild(spanClass);
     }
 
@@ -77,7 +108,6 @@ function createCard(parsedInput){
 }
 
 function inputParser(text){
-    //Extract text
     let textFound = "";
 
     let stringSplit = text.split('::');
@@ -86,7 +116,6 @@ function inputParser(text){
 
     let tagsFound = stringSplit[1].split(',');
 
-    //Extract Tags
     return {
         userInputText: textFound,
         userInputTags: tagsFound
@@ -104,11 +133,9 @@ function getRandomColors(){
     let fontColor = "";
 
     if(luminance < tippingPoint){
-        //Dark background
         fontColor = "white";
     }
     else{
-        // Light background
         fontColor = "black";
     }
 
@@ -117,3 +144,23 @@ function getRandomColors(){
         calcFontColor: fontColor
     }
 } 
+
+
+function saveCard(parsedInput){
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "saveCard", cardText: parsedInput.userInputText, cardTags: parsedInput.userInputTags}, (response) => {
+            console.log("Response from content Script: ", response.status);
+        });
+    })  
+}
+
+function getAllCards(){
+    console.log("Getting All cards");
+    chrome.tabs.query({action: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "sendCard"}, (response) => {
+            console.log("Receiving Data from Content Script");
+            console.log("Text Array: " + response.text);
+            console.log("Tags Array: " + response.tags);
+        });
+    });
+};

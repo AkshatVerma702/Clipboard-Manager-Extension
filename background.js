@@ -20,3 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log("Unknown action received:", request.action);
     }
 });
+
+function saveTags(tagsArray){
+    
+}

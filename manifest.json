@@ -7,7 +7,8 @@
       "clipboardRead",
       "clipboardWrite",
       "storage",
-      "tabs"
+      "tabs",
+      "storage"
     ],
     "action": {
       "default_popup": "hello.html",

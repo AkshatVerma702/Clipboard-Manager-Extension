@@ -1,9 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
-/* --text: #050316;
---background: #f3f3fd;
---primary: #4238d9;
---secondary: #cc91ea;
---accent: #5adc76; */
 
 :root{
   --text: #050316;
@@ -76,29 +71,10 @@ body{
 
 .items-container {
   margin-top: 15px;
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  grid-template-rows: repeat(3, auto); 
-  gap: 10px; 
-  padding: 10px;
-  justify-content: center;
-  align-items: start;
-  width: 100%;
-  max-width: 400px; 
-  margin: 0 auto;  */
 }
 
 
 .item-card-container {
-    /* margin-top: 3%;
-    border-radius: 5px;
-    width: 300px;
-    display: flex;
-    align-items: center; 
-    padding: 5px;
-    justify-items: center;
-    align-items: center;
-    user-select: none; */
     display: grid;
     grid-template-columns: repeat(2, 3fr);
 }
@@ -146,7 +122,7 @@ body{
     
 /* Item Card Improvements */
 .item-card {
-  order: 1px solid blue;
+  border: 1px solid transparent;
   padding: 10px;
   border-radius: 8px;
   background: white;
@@ -191,4 +167,61 @@ body{
 ::-webkit-scrollbar-thumb:hover {
   background-color: #999999;
 
+}
+
+#file-import-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#file-input {
+  display: none;
+}
+
+#file-input-label {
+  background-color: var(--primary);
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Winky Sans", sans-serif;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+}
+
+#file-input-label:hover {
+  background-color: var(--secondary);
+}
+
+/* Style the actual Import File button */
+#file-import-btn {
+  background-color: var(--accent);
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Winky Sans", sans-serif;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+}
+
+#file-import-btn:hover {
+  background-color: var(--secondary);
+}
+
+@keyframes copyAnimation {
+  0%{
+    border: 1px solid initial;
+  }
+  50%{
+    border: 2px solid blue;
+  }
+  100%{
+    border: 1px solid initial;
+  }
 }

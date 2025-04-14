@@ -1,7 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded");
     getAllCards();
-})
+});
+
+document.getElementById("file-import-btn").addEventListener('click', () => {
+    const input = document.getElementById("file-input");
+
+    console.log(input.files[0].type);
+
+    if(!input.files.length){
+        console.log("Please Select a File");
+        return;
+    }
+
+});
 
 document.getElementById("search-btn").addEventListener('click', () => {
     takeInput();
@@ -13,8 +25,9 @@ document.getElementById("text-bar").addEventListener('keypress', (e) => {
     }
 });
 
+// Copy Cards with Click
 document.body.addEventListener('click', async (e) => {
-    let card = e.target.closest(".item-card");
+    const card = e.target.closest(".item-card");
     if(!card){
         return;
     }
@@ -27,6 +40,13 @@ document.body.addEventListener('click', async (e) => {
 
     try{
         await navigator.clipboard.writeText(targetText);
+        console.log("animation start")
+        card.style.animation = "copyAnimation 2s ease";
+
+        card.addEventListener('animationend', function handler() {
+            card.style.animation = "";
+            card.removeEventListener("animationend", handler);
+        })
         console.log("Copied: ", targetText);
     }
     catch(err){
@@ -114,6 +134,10 @@ function inputParser(text){
 
     textFound = stringSplit[0];
 
+    if(textFound == ""){
+
+    }
+
     let tagsFound = stringSplit[1].split(',');
 
     return {
@@ -147,6 +171,7 @@ function getRandomColors(){
 
 
 function saveCard(parsedInput){
+    if(!parsedInput.userInputText.trim() && ())
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {action: "saveCard", cardText: parsedInput.userInputText, cardTags: parsedInput.userInputTags}, (response) => {
             console.log("Response from content Script: ", response.status);
@@ -156,20 +181,22 @@ function saveCard(parsedInput){
 
 function getAllCards(){
     console.log("Getting All cards");
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, {action: "sendCard"}, (response) => {
-            console.log("Receiving Data from Content Script");
-            
-            if(!response.text && !response.tags){
-                return;
+
+    chrome.runtime.sendMessage({action: "sendCard"}, (response) => {
+        console.log(response);
+
+        for(const card of response.result.cards){
+            let tags = card.tags;
+            let text = card.text;
+
+            if(!tags){
+                continue;
             }
 
-            let obj = {
-                userInputText: response.text,
-                userInputTags: response.tags
-            }
-
-            createCard(obj)
-        });
-    });
+            createCard({
+                userInputText: text,
+                userInputTags: tags
+            });
+        }
+    })
 };

@@ -24,7 +24,7 @@ body{
     margin-bottom: 10px;
 }
 
-#search-container {
+#add-card-container {
     display: flex;
     align-items: center;
     gap: 10px; /* Space between input and button */
@@ -32,7 +32,17 @@ body{
     justify-content: center;
 }
 
-#text-bar {
+#search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between input and button */
+  width: 100%;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+
+#add-card-bar {
     font-family: "Winky Sans", sans-serif;
     width: 200px;
     padding: 8px 12px;
@@ -43,12 +53,28 @@ body{
     transition: all 0.3s ease-in-out;
 }
 
-#text-bar:focus {
+#search-bar {
+  font-family: "Winky Sans", sans-serif;
+  width: 200px;
+  padding: 8px 12px;
+  font-size: 1em;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+#add-card-bar:focus {
     border-color: var(--accent);
     box-shadow: 0 0 5px var(--accent);
 }
 
-#search-btn, #file-import-btn {
+#search-bar:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 5px var(--accent);
+}
+
+#add-card-btn, #search-btn, #file-import-btn {
     background: var(--primary);
     color: white;
     border: none;
@@ -59,7 +85,7 @@ body{
     transition: background 0.3s ease-in-out, transform 0.2s;
 }
 
-#search-btn:hover, #file-import-btn:hover {
+#add-card-btn:hover, #search-btn:hover, #file-import-btn:hover {
     background: var(--accent);
     transform: scale(1.05);
 }

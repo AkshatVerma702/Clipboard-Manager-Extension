@@ -1,29 +1,30 @@
+let allCards = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded");
     getAllCards();
 });
 
-document.getElementById("file-import-btn").addEventListener('click', () => {
-    const input = document.getElementById("file-input");
-
-    console.log(input.files[0].type);
-
-    if(!input.files.length){
-        console.log("Please Select a File");
-        return;
-    }
-
-});
-
-document.getElementById("search-btn").addEventListener('click', () => {
+document.getElementById("add-card-btn").addEventListener('click', () => {
+    console.log("Create Card");
     takeInput();
 });
 
-document.getElementById("text-bar").addEventListener('keypress', (e) => {
+document.getElementById("add-card-bar").addEventListener('keypress', (e) => {
     if(e.key == 'Enter'){
         takeInput();
     }
 });
+
+document.getElementById("search-bar").addEventListener('keypress', (e) => {
+    if(e.key == 'Enter'){
+        searchFunctionality()
+    }
+})
+
+document.getElementById("search-btn").addEventListener('click', () => {
+    searchFunctionality();
+})
 
 // Copy Cards with Click
 document.body.addEventListener('click', async (e) => {
@@ -54,13 +55,27 @@ document.body.addEventListener('click', async (e) => {
     }
 });
 
+function searchFunctionality(){
+    console.log("User wants to search a card");
+
+    let searchElement = document.getElementById("search-bar").value;
+
+    console.log(searchElement);
+}
+
 function takeInput(){
-    const textBar = document.getElementById("text-bar");
+    const textBar = document.getElementById("add-card-bar");
     const textBarValue = textBar.value;
 
     let parsedInput = inputParser(textBarValue);
 
     createCard(parsedInput);
+
+    allCards.push({
+        text: parsedInput.userInputText,
+        tags: parsedInput.userInputTags
+    });
+
     saveCard(parsedInput);
 
     textBar.value = "";
@@ -171,12 +186,10 @@ function getRandomColors(){
 
 
 function saveCard(parsedInput){
-    if(!parsedInput.userInputText.trim() && ())
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-        chrome.tabs.sendMessage(tabs[0].id, {action: "saveCard", cardText: parsedInput.userInputText, cardTags: parsedInput.userInputTags}, (response) => {
-            console.log("Response from content Script: ", response.status);
-        });
-    })  
+    chrome.runtime.sendMessage({action: "saveCard", cardText: parsedInput.userInputText, cardTags: parsedInput.userInputTags}, (response) => {
+        console.log(response);
+        console.log("Response from content Script: ", response.status);
+    });
 }
 
 function getAllCards(){

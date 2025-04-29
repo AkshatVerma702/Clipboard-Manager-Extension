@@ -251,3 +251,7 @@ body{
     border: 1px solid initial;
   }
 }
+
+.disappear{
+  display: none;
+}

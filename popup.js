@@ -16,6 +16,23 @@ document.getElementById("add-card-bar").addEventListener('keypress', (e) => {
     }
 });
 
+document.getElementById("search-bar").addEventListener('focus', () => {
+    const itemCardContainer = document.querySelector(".item-card-container");
+    if(itemCardContainer){
+        console.log("okay")
+        itemCardContainer.classList.add('disappear')
+    }
+});
+
+document.getElementById("search-bar").addEventListener('blur', () => {
+    console.log("Out of focus");
+    const itemCardContainer = document.querySelector(".item-card-container");
+    if(itemCardContainer){
+        console.log("okay")
+        itemCardContainer.classList.remove('disappear')
+    }
+})
+
 document.getElementById("search-bar").addEventListener('keypress', (e) => {
     if(e.key == 'Enter'){
         searchFunctionality()
@@ -59,6 +76,8 @@ function searchFunctionality(){
     console.log("User wants to search a card");
 
     let searchElement = document.getElementById("search-bar").value;
+
+    console.log("In focus: " + document.activeElement);
 
     console.log(searchElement);
 }
